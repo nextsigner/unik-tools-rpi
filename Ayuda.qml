@@ -56,12 +56,25 @@ Item {
         height: raiz.height-tb.height
         anchors.top: tb.bottom
         color: app.c5
-        /*WebView{
-            id: weAyuda
-            width: parent.width
-            height: parent.height
-            url: "https://nsdocs.blogspot.com.ar/2018/02/unik-documentation.html"
-        }*/
+        Rectangle{
+            width: txtBtn1.contentWidth*1.2
+            height: txtBtn1.contentHeight*1.2
+            color: app.c2
+            border.color: app.c1
+            border.width: 2
+            radius: height*0.1
+            anchors.centerIn: parent
+            MouseArea{
+                anchors.fill: parent
+                onClicked: Qt.openUrlExternally('http://www.unikode.org/2018/02/unik-documentation.html')
+            }
+            Text {
+                id: txtBtn1
+                text: 'Unik Documentaciòn'
+                font.pixelSize: app.fs*2
+                anchors.centerIn: parent
+            }
+        }
     }
     Rectangle{
         visible: raiz.nindex===0

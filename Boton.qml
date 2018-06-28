@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtQuick.Layouts 1.3
 Item {
     id: raiz
@@ -21,13 +21,15 @@ Item {
         color: 'transparent'
         radius: raiz.r
         anchors.centerIn: raiz        
-        border.width: 1
+        border.width: 0
         border.color: txt.color
         Rectangle{
             id:bg
             color: raiz.b
             anchors.fill: parent
             radius: parent.radius
+            border.width: 0
+            focus: false
         }
         ParallelAnimation{
                 id: an
@@ -40,7 +42,7 @@ Item {
                     duration: 200
                     easing.type: Easing.InOutQuad
                 }
-        }        
+        }
     }    
     MouseArea{
         id:ma
@@ -77,7 +79,7 @@ Item {
         width: tip.width+app.fs*0.5
         height: tip.height+app.fs*0.2
         visible:false
-        border.width: 1
+        border.width: 0
         border.color: txt.color
         color: raiz.b
         radius: 6

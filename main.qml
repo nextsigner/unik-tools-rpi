@@ -2,49 +2,33 @@
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
-//import LogView 1.0
+import LogView 1.0
 
 ApplicationWindow{
     id: app
     objectName: 'unik-tools'
     visible: true
-    //swidth: 500
-    //height: 500
     visibility: 'Maximized'
     title: "unik-tools"
     color: Qt.platform.os !=='android' && app.waiting?"transparent":app.c5
-    //minimumWidth: 500
-    //minimumHeight: 500z
 
-    property int area: 0
+    property int area: 1
     property bool closedModeLaunch: false
     property bool logueado: false
     property string userLogin: ''
     property string keyLog: ''
-    //property bool waiting: wait
 
-    //flags: Qt.platform.os !=='android' && app.waiting?Qt.Window | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint:1
-
-    onVisibleChanged: {
-        if(!visible&&closedModeLaunch){
-            app.close()
-        }
-    }
     onClosing: {
         Qt.quit()
     }
     onWidthChanged: {
-        if(Qt.platform.os==='android'){
-            //xApp.rotation = app.width>app.height?0:90
-        }else{
+        if(Qt.platform.os!=='android'){
             appSettings.appWidth = width
             appSettings.appX = app.x
         }
     }
     onHeightChanged:  {
-        if(Qt.platform.os==='android'){
-            //xApp.rotation = app.width>app.height?0:90
-        }else{
+        if(Qt.platform.os!=='android'){
             appSettings.appHeight = height
             appSettings.appY = app.y
         }
@@ -88,7 +72,6 @@ ApplicationWindow{
     Item{
         id: xApp
         anchors.fill: parent
-        //visible: !app.waiting
         Column{
             height: app.height
             Rectangle{//Top Tool Bar
@@ -188,19 +171,7 @@ ApplicationWindow{
                         width: parent.width*0.8
                         anchors.horizontalCenter: parent.horizontalCenter
                         spacing:  Qt.platform.os !=='android'?width*0.5:width*0.25
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        Boton{//AppList
-                            id:btnArea0
-                            w:parent.width
-                            h: w
-                            t: '\uf0ca'
-                            d:'Mostrar Lista de Aplicaciones dispobibles para instalar'
-                            b:app.area===0?app.c2:app.c1
-                            onClicking: {
-                                app.area=0
-                            }
-                        }
+                        anchors.verticalCenter: parent.verticalCenter                        
 //                        Boton{//DepsList
 //                            id:btnAreaDeps
 //                            w:parent.width
@@ -350,20 +321,7 @@ ApplicationWindow{
                         }
                     }
 
-                }
-                AppList{
-                    id: appList
-                    width: app.width-xTools.width
-                    height: parent.height
-                    visible: app.area===0
-                    anchors.right: parent.right
-                }
-//                UnikInstallDependencies{
-//                    id: unikDepsList
-//                    width: app.width-xTools.width
-//                    height: parent.height
-//                    visible: app.area===4
-//                }
+                }                
                 PageAppList{
                     id: pal
                     width: app.width-xTools.width
@@ -385,7 +343,7 @@ ApplicationWindow{
                     visible: app.area===3
                     anchors.right: parent.right
                 }
-                LogViewRPI{
+                LogView{
                     id:logView
                     height: appSettings.pyLineRH1
                     width: parent.width-xTools.width
@@ -406,39 +364,8 @@ ApplicationWindow{
                     visible: false
                 }
             }
-
-
-
-
-        }
-
-        FormUnikLogin{
-            id: ful
-            visible: false
-            width:  parent.width
-            height: parent.height
-            color: app.c5
-        }
-
-    }
-
-
-
-    Timer{
-        id:timerInit
-        running: true
-        repeat: true
-        interval: 1000
-        property int v: 0
-        onTriggered: {
-            unik.setProperty("logViewVisible", appSettings.logVisible)
-            timerInit.v++
-            if(timerInit.v>12){
-                timerInit.stop()
-            }
         }
     }
-
     Timer{
         id:tu
         running: true
@@ -449,7 +376,7 @@ ApplicationWindow{
             tu.v++
             var d = new Date(Date.now())
             unik.setDebugLog(false)
-            var ur0 = ''+unik.getHttpFile('https://github.com/nextsigner/unik-tools/commits/master?r='+d.getTime())
+            var ur0 = ''+unik.getHttpFile('https://github.com/nextsigner/unik-tools-rpi/commits/master?r='+d.getTime())
             var m0=ur0.split("commit-title")
             var m1=(''+m0[1]).split('</p>')
             var m2=(''+m1[0]).split('\">')
@@ -464,7 +391,7 @@ ApplicationWindow{
                 unik.log("Updating unik-tools")
                 appSettings.uRS = ur
                 var fd=appsDir
-                var downloaded = unik.downloadGit('https://github.com/nextsigner/unik-tools', fd)
+                var downloaded = unik.downloadGit('https://github.com/nextsigner/unik-tools-rpi', fd)
                 appSettings.uRS=''
                 tu.stop()
                 if(downloaded){
@@ -483,7 +410,6 @@ ApplicationWindow{
     }
 
     Component.onCompleted: {
-        //unik.setProperty("logViewVisible", appSettings.logVisible)
         if(appSettings.pyLineRH1===0||appSettings.pyLineRH1===undefined){
             appSettings.pyLineRH1 = 100
         }
@@ -499,14 +425,9 @@ ApplicationWindow{
         }else{
             app.visibility = "FullScreen"
         }
-        ful.init()
         unik.log('unik-tools log')
         unik.log('unik version: '+version+'')
         unik.log('unik-tools host:  '+host+'')
         unik.log('Unik Tools AppName: '+appName)
-        //unik.log(app.contentData)
-        appList.act()
-    }
-
-
+        }
 }

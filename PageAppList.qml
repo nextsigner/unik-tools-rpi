@@ -131,8 +131,10 @@ Item {
                                     ad = ''+unik.getPath(6)+'/'+s2+'.desktop'
                                     if(!unik.fileExist(ad)){
                                         exec = ''+unik.getPath(1)+'/unik  '+appsDir+'/'+fileName
-                                        console.log('Unik Qml Blogger Exec Path: '+exec)
-                                        created = unik.createLink(exec, ad, ''+fileName+'', 'This is a desktop file created by unik-tools')
+                                        console.log('Unik Tools RPI Exec Path: '+exec)
+                                        console.log('Unik Tools RPI FileName: '+fileName)
+                                        //console.log('Unik Tools RPI New Desktop File: '+unik.createLnk())
+                                        created = unik.createLnk(exec, ad, ''+fileName+'', 'This is a desktop file created by unik-tools')
                                     }
                                 }
                                 if(Qt.platform.os==='windows'){
