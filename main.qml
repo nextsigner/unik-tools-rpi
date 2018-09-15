@@ -2,7 +2,7 @@
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
-import LogView 1.0
+//import LogView 1.0
 
 ApplicationWindow{
     id: app
